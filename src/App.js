@@ -5,13 +5,13 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Signups from './pages/Signup';
 import './App.css'
 import login from './pages/login';
-import  CreatePost from './components/CreatePost'
+// import  CreatePost from './components/CreatePost'
 import {  Route, Switch } from 'react-router-dom'
 import Profile from './components/profile';
 // import Home from './pages/Home'
 import edit from './components/edit';
 import Homepage from './components/Homepage'
- import Checking from './components/Checking';
+//  import Checking from './components/Checking';
 
 export default class App extends Component {
   render() {

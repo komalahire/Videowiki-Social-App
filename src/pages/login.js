@@ -32,15 +32,16 @@ class Login extends Component {
       .then(res => {
         // console.log(res)
         localStorage.setItem('token', res.data);
-        // console.log(localStorage.getItem('token'))
+        const token = localStorage.getItem("token");
+        
         // axios.post('http://localhost:8000/verify', {id: res.data.user['id']})
 
-       axios.get('http://localhost:8000/verify', { header:  { id: res.data } }).then(respo => {
-            // console.log("=======")
+       axios.get('http://localhost:8000/verify', { params:  {token: token } }).then(respo => {
+         console.log("ty7tiu")
             if (respo.data===true) {
-             console.log("twi")
-            } else {
               this.props.history.push('/home')
+            } else {
+              this.props.history.push('/login')
             }
           })
           // console.log(a)

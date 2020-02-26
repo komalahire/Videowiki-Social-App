@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
 import Navbar from "../components/navbar";
-// import { Card } from 'react-bootstrap'
 import { Link } from "react-router-dom";
 var validEmailRe = RegExp(
   /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
@@ -12,8 +11,7 @@ class Register extends Component {
     super();
     this.state = {
       Username: "",
-      email: "",
-      password: "",
+      email: "", password: "",
       errors: {
         Username: "",
         email: "",
@@ -38,7 +36,6 @@ class Register extends Component {
           : "Full Name must be 5 characters long!";
         break;
       case "email":
-        // var validEmailRegex  = new RegExp('^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$');
         newErros.email = validEmailRe.test(value) ? "" : "Email is not valid!";
         break;
       case "password":
@@ -73,12 +70,10 @@ class Register extends Component {
     } else {
       this.goToHome();
     }
-
-    //   console.log(response);
   };
 
   render() {
-    const { email, Username, password, errors } = this.state;
+    const { email, Username, password } = this.state;
     console.log(this.state);
 
     const isEnabled =

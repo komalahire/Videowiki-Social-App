@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
 import { Navbar, Button } from 'react-bootstrap'
 import { Link } from 'react-router-dom';
-import Navgurukul from '../components/navgurukul.png'
+import Navgurukul_logo from '../components/navgurukul.png'
 class NavBar extends Component {
   render() {
     console.log(this.props, )
     return (
       <Navbar expand="lg" variant="light" style={{ backgroundColor: '#3578E5' }}>
         {/* <h1>Navgurukul</h1> */}
-        <img src={Navgurukul} style={{height:"200px"}}/>
+        <img src={Navgurukul_logo} style={{height:"200px"}} alt="img"/>
 
         <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
           <ul className="navbar-nav ml-auto">

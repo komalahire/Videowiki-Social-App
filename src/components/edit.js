@@ -100,7 +100,7 @@ class Edit extends Component {
     
 
     render() {
-        const { email, address, phone, errors,education } = this.state;
+        
         return (
             <div>
                 <div>

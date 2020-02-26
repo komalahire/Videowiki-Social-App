@@ -10,7 +10,7 @@ import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import "./profile.css";
 // import Avatar from '@material-ui/core/Avatar';
 import demo from "./demo.jpg";
-import EditIcon from "@material-ui/icons/Edit";
+
 import axios from "axios";
 // import jwt_decode from 'jwt-decode';
 
@@ -117,7 +117,7 @@ class Profile extends Component {
                     borderRadius: "50%",
                     height: "150px",
                     cursor: "pointer"
-                  }}
+                  }} alt="img"
                 />
               </div>
             </label>
