@@ -3,7 +3,7 @@ import axios from "axios";
 import Navbar from "../components/navbar";
 import { Link } from "react-router-dom";
 var validEmailRe = RegExp(
-  /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
+  /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:s@\"]{2,})$/i
 );
 
 class Register extends Component {
@@ -77,7 +77,7 @@ class Register extends Component {
     console.log(this.state);
 
     const isEnabled =
-      email.length > 0 && password.length > 0 && Username.length > 0;
+    validEmailRe.test(email) && password.length > 8 && Username.length > 5;
 
     return (
       <div>
@@ -121,6 +121,7 @@ class Register extends Component {
                 />
               </div>
               <div style={{ color: "red" }}>{this.state.errors.password}</div>
+              
               <button
                 type="submit"
                 className="btn btn-primary btn-block"

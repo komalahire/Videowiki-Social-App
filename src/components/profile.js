@@ -2,13 +2,14 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 // import Card from '@material-ui/core/Card';
 import { Navbar } from "react-bootstrap";
+import Navgurukul_logo from '../components/navgurukul.png'
 import HomeIcon from "@material-ui/icons/Home";
 import { IconButton } from "@material-ui/core";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import AddIcon from "@material-ui/icons/Add";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import "./profile.css";
-// import Avatar from '@material-ui/core/Avatar';
+
 import demo from "./demo.jpg";
 
 import axios from "axios";
@@ -72,6 +73,7 @@ class Profile extends Component {
             variant="light"
             style={{ backgroundColor: "#3578E5" }}
           >
+             <img src={Navgurukul_logo} style={{height:"200px"}} alt="img"/>
             <IconButton color="inherit">
               <HomeIcon />
             </IconButton>
@@ -89,6 +91,7 @@ class Profile extends Component {
                   <AccountCircleIcon />
                 </Link>
               </IconButton>
+              <span>Profile</span>
             </div>
           </Navbar>
         </div>
