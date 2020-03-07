@@ -1,7 +1,12 @@
 import React, { Component } from "react";
 import axios from "axios";
-import Navbar from "../components/navbar";
+// import Navbar from "../components/navbar";
+import { Navbar, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
+// import Navbar from "../components/navbar";
+import Navgurukul_logo from "../components/navgurukul.png";
+
+// import { Link } from "react-router-dom";
 var validEmailRe = RegExp(
   /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:s@\"]{2,})$/i
 );
@@ -77,11 +82,44 @@ class Register extends Component {
     console.log(this.state);
 
     const isEnabled =
-    validEmailRe.test(email) && password.length > 8 && Username.length > 5;
+    validEmailRe.test(email) && password.length > 8 && Username.length >4 ;
 
     return (
       <div>
-        <Navbar />
+         <Navbar
+        expand="lg"
+        variant="light"
+        style={{ backgroundColor: "#3578E5" }}
+      >
+        {/* <h1>Navgurukul</h1> */}
+        <img src={Navgurukul_logo} style={{ height: "200px" }} alt="img" />
+
+        <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
+          <ul className="navbar-nav ml-auto">
+            <li className="nav-item">
+              <Link to="/login">
+                <Button
+                  variant="primary"
+                  style={{ height: "40px", width: "90px" }}
+                >
+                  Login
+                </Button>{" "}
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link to="/signup">
+                {" "}
+                <Button
+                  variant="primary"
+                  style={{ height: "40px", width: "90px" }}
+                >
+                  Signup
+                </Button>
+              </Link>
+            </li>
+          </ul>
+        </div>
+      </Navbar>
         <form noValidate onSubmit={this.onSubmit}>
           <div className="auth-wrapper" style={{ marginTop: "10%" }}>
             <div className="auth-inner">

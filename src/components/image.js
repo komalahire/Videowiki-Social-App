@@ -1,18 +1,22 @@
 import React from "react";
+
 import { blue } from '@material-ui/core/colors';
+// import Box from '@material-ui/core/Box';
 import { makeStyles } from '@material-ui/core/styles';
-import { Card, CardContent,Grid } from '@material-ui/core'
+import { Card, CardContent } from '@material-ui/core'
 import CardHeader from '@material-ui/core/CardHeader';
-import DeleteRoundedIcon from '@material-ui/icons/DeleteRounded';
+// import DeleteRoundedIcon from '@material-ui/icons/DeleteRounded';
 // import CardMedia from '@material-ui/core/CardMedia';
 const useStyles = makeStyles(theme => ({
     root: {
       maxWidth: 755,
       marginTop:20,
       marginLeft:490,
+       
    
         
     },
+   
     avatar: {
        
         color:blue[500],
@@ -30,11 +34,11 @@ const useStyles = makeStyles(theme => ({
 function Image(props){
     const classes = useStyles();
    const {post} = props;
-   console.log(post)
+  //  console.log(post)
       
     return (
-     <div>
-         {post.map(captions=>(<Card className={classes.root}>
+      <div class="inline">
+         {post.map(captions=>(<Card className={classes.root} display="inline">
             <CardHeader className={classes.avatar}
         
         title={captions.Username}
@@ -44,10 +48,11 @@ function Image(props){
       <CardContent>
       < img src={captions.post_url} className={classes.media} alt="twinkle"/>
       </CardContent>
-      <Grid item xs={4}>
+      {/* <Grid item xs={4}>
       <DeleteRoundedIcon/>
-      </Grid>
-      </Card>))}
+      </Grid> */}
+      </Card>
+      ))}
      </div>
     )
         

@@ -13,7 +13,7 @@ import "./profile.css";
 import demo from "./demo.jpg";
 
 import axios from "axios";
-// import jwt_decode from 'jwt-decode';
+
 
 class Profile extends Component {
   constructor() {
