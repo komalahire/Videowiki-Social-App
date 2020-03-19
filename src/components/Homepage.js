@@ -9,8 +9,7 @@ import axios from "axios";
 import Tooltip from "@material-ui/core/Tooltip";
 import User from "./post";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-import Image from "./image";
-// import zIndex from "@material-ui/core/styles/zIndex";
+import Image from "./PostImage";
 
 class Uploadimage extends Component {
   constructor() {
@@ -24,19 +23,17 @@ class Uploadimage extends Component {
     };
   }
 
-  logout() {
+  logout=()=> {
     localStorage.clear();
   }
 
-  updateInput(e) {
-    e.preventDefault();
-  }
   textPost = e => {
-    // window.location.reload(true);
-    this.setState({ text: e.target.value });
+    e.preventDefault();
+    this.setState({ text: e.target.value});
   };
 
   componentDidMount() {
+    this.intervalID = setTimeout(this.getUserPost, 2000);
     this.m();
     this.d();
     this.n();
@@ -50,10 +47,10 @@ class Uploadimage extends Component {
       loading: true
     });
 
-    const a = await axios.get("http://localhost:8000/get_post");
+    const getUserPostImage = await axios.get("http://localhost:8000/get_post");
 
     this.setState({
-      posts: a.data
+      posts: getUserPostImage.data
     });
 
     const res = await fetch(
@@ -82,68 +79,40 @@ class Uploadimage extends Component {
 
       .then(res => {
         //  console.log(res);
+        this.setState({ text: "" });
       })
       .catch(err => {
         //  console.log(err);
       });
 
-    const m = await axios.get("http://localhost:8000/get_post");
-    this.setState({
-      posts: m.data
-    });
-  //   const s = await axios.get("http://localhost:8000/user_name", {
-  //     params: {
-  //       token: token
-  //     }
-  //   });
-  //   this.setState({ username: s.data });
-  //   console.log(s.data);
-  // };
-  // n = async e => {
-  // const s = await axios.get("http://localhost:8000/user_name", {
-  //     params: {
-  //       token: token
-  //     }
-  //   });
-  //   this.setState({ username: s.data });
-  //   console.log(s.data);
-  // };
-}
-n = async e => {
-  const token = localStorage.getItem("token");
-  const s = await axios.get("http://localhost:8000/user_name", {
+    // const m = await axios.get("http://localhost:8000/get_post");
+    // this.setState({
+    //   posts: m.data
+    // });
+  };
+  n = async e => {
+    const token = localStorage.getItem("token");
+    const getUserNames = await axios.get("http://localhost:8000/user_name", {
       params: {
         token: token
       }
     });
-    this.setState({ username: s.data });
-    console.log(s.data);
+    this.setState({ username: getUserNames.data });
   };
 
   d = async e => {
-    const c = await axios.get("http://localhost:8000/get_post");
-
+    const getUserPost = await axios.get("http://localhost:8000/get_post");
     this.setState({
-      posts: c.data
+      posts: getUserPost.data
     });
   };
 
   m = async e => {
-    const b = await axios.get("http://localhost:8000/get_user");
-
+    const getUser = await axios.get("http://localhost:8000/get_user");
     this.setState({
-      user: b.data
+      user: getUser.data
     });
-    this.intervalID = setTimeout(this.c, 5000);
   };
-
-  // componentDidMount(){
-  //   this.m()
-  //   this.d()
-  // }
-  // componentDidMount(){
-  //   this.uploadImage()
-  // }
 
   render() {
     return (
@@ -159,14 +128,17 @@ n = async e => {
         >
           <img src={Navgurukul_logo} style={{ height: "200px" }} alt="img" />
 
-          <div className="container" style={{ width: "10px" }}>
+          <div
+            className="navbar-nav ml-auto"
+            style={{ width: "10px", marginRight: "60px", marginBottom: "12px" }}
+          >
             <Tooltip title="Profile" arrow style={{ fontSize: "90px" }}>
               <Link to="/profile">
-                <AccountCircleIcon />
+                <AccountCircleIcon style={{ fontSize: "40px" }} />
               </Link>
             </Tooltip>
           </div>
-          <ul className="navbar-nav ml-auto">
+          <ul>
             <li className="nav-item">
               <Link to="/">
                 <Button
@@ -192,13 +164,14 @@ n = async e => {
                     placeholder="write here caption"
                     style={{ padding: "10px" }}
                     name="text"
-                    // onBlur={() => this.props.actions.updateInput(this.state.text)}
+                    onfocus="if(this.value == 'value') { this.value = ''; }"
                     value={this.state.text}
                     onChange={this.textPost}
                   />
                   <Button
                     variant="contained"
                     color="primary"
+                    onClick={this.a}
                     style={{ marginLeft: "10px", marginBottom: "10px" }}
                   >
                     <label
@@ -216,7 +189,6 @@ n = async e => {
                     variant="contained"
                     color="primary"
                     style={{ marginLeft: "50%", fontSize: "20px" }}
-                    // onClick={this.uploadImage}
                   >
                     Post
                   </Button>
@@ -236,11 +208,10 @@ n = async e => {
             </Grid>
           </Grid>
         </div>
-        { this.state.username !=="" && this.state.user !== "" && <User usernameses={this.state.username} users={this.state.user} />
-        }
+        {this.state.username !== "" && this.state.user !== "" && (
+          <User usernameses={this.state.username} users={this.state.user} />
+        )}
         {this.state.posts !== "" && <Image post={this.state.posts} />}
-        
-        {/* {this.state.username !=="" && <User usernames={this.state.username}/>}   */}
       </div>
     );
   }

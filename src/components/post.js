@@ -4,7 +4,6 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import './post.css'
-import axios from "axios";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 
 
@@ -34,7 +33,7 @@ const styles =  theme => ({
    
    
     
-  // const classes = useStyles();
+  
 render(){
   const {classes} = this.props;
   const {users, usernameses}=this.props
@@ -49,13 +48,13 @@ render(){
     { usernameses.map(postes=>(<span>{postes.username}</span>  
        ))}  
       
-       {users.map(posts=>(<box ><List className={classes.root}>
+       {users.map(posts=>(<List className={classes.root}>
       <ListItem >
         
         <ListItemText primary={posts.username} />
         </ListItem>
       
-    </List></box>
+    </List>
      
    
     ))}

@@ -1,26 +1,22 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-// import Card from '@material-ui/core/Card';
 import { Navbar } from "react-bootstrap";
-import Navgurukul_logo from '../components/navgurukul.png'
+import Tooltip from "@material-ui/core/Tooltip";
 import HomeIcon from "@material-ui/icons/Home";
 import { IconButton } from "@material-ui/core";
-import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
-import AddIcon from "@material-ui/icons/Add";
-import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import demo from "./demo.jpg";
+import Username from "./UserNames";
+import axios from "axios";
 import "./profile.css";
 
-import demo from "./demo.jpg";
-
-import axios from "axios";
-
-
 class Profile extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       image: demo,
-      loading: false
+      loading: false,
+      gets: "",
+      post:""
     };
   }
 
@@ -32,6 +28,7 @@ class Profile extends Component {
     this.setState({
       loading: true
     });
+
     const res = await fetch(
       "https://api.cloudinary.com/v1_1/coder-202/image/upload",
       {
@@ -39,6 +36,7 @@ class Profile extends Component {
         body: data
       }
     );
+
     const file = await res.json();
     this.setState({
       image: file.secure_url
@@ -49,20 +47,62 @@ class Profile extends Component {
     });
     const token = localStorage.getItem("token");
     console.log(localStorage.getItem("token"), "tokan is ..");
-    // const decoded = jwt_decode(token)
-    // console.log(decoded)
 
     axios
-      .post("http://localhost:8000/profile_im", {
+      .post("http://localhost:8000/profile_image", {
         header: { imageUrl: file.secure_url, token: token }
       })
+
       .then(res => {
-        console.log(res);
+        console.log("post :" + res);
       })
       .catch(err => {
         console.log(err);
       });
+
+    // const post_response = await axios.get("http://localhost:8000/user_posts", {
+    //   params: { token: token }
+    // });
+
+    // this.setState({ post: post_response.data });
+
   };
+  a = async () => {
+    const token = localStorage.getItem("token");
+    const response = await axios.get("http://localhost:8000/get_profile", {
+      params: { token: token }
+    });
+    this.setState({ gets: response.data });
+    return response;
+  };
+  b=async()=>{
+    const token = localStorage.getItem("token");
+  const post_response = await axios.get("http://localhost:8000/user_posts", {
+    params: { token: token }
+  });
+
+  this.setState({ post: post_response.data });
+  }
+
+
+  async componentDidMount() {
+    this.b()
+    var mydata = await this.a();
+    
+    // console.log(mydata)
+    const data = mydata.data[0];
+    console.log(data);
+    if (data === undefined) {
+      this.setState({
+        src: ""
+      });
+    } else {
+      const data = mydata.data[0];
+      this.setState({
+        image: data.pro_url
+      });
+    }
+  }
 
   render() {
     return (
@@ -73,33 +113,20 @@ class Profile extends Component {
             variant="light"
             style={{ backgroundColor: "#3578E5" }}
           >
-             <img src={Navgurukul_logo} style={{height:"200px"}} alt="img"/>
             <IconButton color="inherit">
-              <HomeIcon />
+              <Link to="/home">
+                {" "}
+                <HomeIcon />
+              </Link>
             </IconButton>
             <span>Home</span>
-            <div className="container" style={{ width: "10px" }}>
-              <IconButton color="inherit">
-                <FavoriteBorderIcon />
-              </IconButton>
-              <IconButton color="inherit">
-                <AddIcon />
-              </IconButton>
-              <IconButton color="inherit">
-                <Link to="/profile">
-                  {" "}
-                  <AccountCircleIcon />
-                </Link>
-              </IconButton>
-              <span>Profile</span>
-            </div>
+            <div className="container" style={{ width: "10px" }}></div>
           </Navbar>
         </div>
 
-        <div className="profile">
-          {/* <label className='Icon' for="file">
-          < EditIcon color='primary' />
-        </label> */}
+        <div
+         
+        >
           <input
             type="file"
             multiple="true"
@@ -108,123 +135,43 @@ class Profile extends Component {
             name="file"
             onChange={this.uploadImage}
           />
-          {this.state.loading ? (
-            <h3>Loading...</h3>
-          ) : (
-            <label className="Icon" for="file">
-              <div className="box">
-                <img
-                  src={this.state.image}
-                  style={{
-                    width: "150px",
-                    borderRadius: "50%",
-                    height: "150px",
-                    cursor: "pointer"
-                  }} alt="img"
-                />
-              </div>
-            </label>
-          )}
-          {/* <label className='Icon' for="file"> */}
-          {/* < EditIcon color='primary' /> */}
-          {/* </label> */}
-          <div>
-            <Link to="/edit">
-             
-              <button variant="primary">Edit profile</button>
-            </Link>
+          <div style={{ marginLeft: "50%" }}>
+            {this.state.loading ? (
+              <h3>Loading...</h3>
+            ) : (
+              <label
+                className="Icon"
+                for="file"
+                style={{ float: "left" }}
+                onChange={this.uploadImage}
+              >
+                <div className="box">
+                  <img
+                    src={this.state.image}
+                    style={{
+                      width: "150px",
+                      borderRadius: "50%",
+                      height: "150px",
+                      cursor: "pointer"
+                    }}
+                    alt="img"
+                  />
+
+                </div>
+              </label>
+            )}
+            <div style={{marginTop:'30px'}} >
+              <Link to="/edit">
+                <button style={{marginTop:'5%',  marginLeft:'50px'}} variant="primary">
+                  Edit profile
+                </button>
+              </Link>
+            </div>
           </div>
         </div>
+        {(this.state.gets !== "" && this.state.post !== "") && <Username name={this.state.gets}  user_post={this.state.post}/>}
       </div>
     );
   }
 }
-
-// function Profile() {
-//   const [image, setImage] = useState(demo)
-//   const [loading, setLoading] = useState(false)
-
-//   const uploadImage = async e => {
-//     const files = e.target.files
-//     const data = new FormData()
-//     data.append('file', files[0])
-//     data.append('upload_preset', 'venu18')
-//     setLoading(true)
-//     const res = await fetch(
-//       'https://api.cloudinary.com/v1_1/coder-202/image/upload',
-//       {
-//         method: 'POST',
-//         body: data
-//       }
-//     )
-//     const file = await res.json()
-//     setImage(file.secure_url)
-//     console.log(file.secure_url)
-//     setLoading(false)
-//     const token = localStorage.getItem('token');
-//     console.log(localStorage.getItem('token'), "tokan is ..")
-//     // const decoded = jwt_decode(token)
-//     // console.log(decoded)
-
-//     axios.post('http://localhost:8000/profile_im',{header:{imageUrl:file.secure_url,token:token }}
-//     ).then(res =>{
-//       console.log(res)
-//     }).catch(err =>{
-//       console.log(err)
-//     })
-//   }
-
-//   return (
-//     <div>
-//       <div>
-//         <Navbar expand="lg" variant="light" style={{ backgroundColor: '#3578E5' }}>
-//           <IconButton
-//             color="inherit"
-//           >
-//             <HomeIcon />
-//           </IconButton>
-//           <span>Home</span>
-//           <div className="container" style={{ width: '10px' }}>
-//             <IconButton color="inherit">
-//               <FavoriteBorderIcon />
-//             </IconButton>
-//             <IconButton color="inherit">
-//               <Link to="/CreatePost" ><AddIcon /> </Link>
-//             </IconButton>
-//             <IconButton color="inherit">
-//               <Link to="/profile" > <AccountCircleIcon /></Link>
-//             </IconButton>
-//           </div>
-//         </Navbar>
-//       </div>
-
-//       <div className="profile">
-
-//         {/* <label className='Icon' for="file">
-//           < EditIcon color='primary' />
-//         </label> */}
-//         <input type="file"
-//           multiple='true'
-//           id="file"
-//           style={{ display: 'none' }}
-//           name='file'
-//           onChange={ uploadImage}/>
-//         {loading ? (
-//           <h3>Loading...</h3>
-//         ) : (
-//             <div className='box'>
-//               <img src={image} style={{ width: '150px', borderRadius: '50%', height: '150px', }} />
-//             </div>
-//           )}
-//            <label className='Icon' for="file">
-//           < EditIcon color='primary' />
-//         </label>
-//         <div>
-//         <Link to="/edit"> <button variant="primary">Edit profile</button></Link>
-//       </div>
-//       </div>
-
-//     </div>
-//   )
-// }
 export default Profile;
